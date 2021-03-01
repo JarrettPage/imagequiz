@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/JarrettPage/imagequiz/static/css/main.8c8b27cf.chunk.css",
+    "main.js": "/JarrettPage/imagequiz/static/js/main.72be180b.chunk.js",
+    "main.js.map": "/JarrettPage/imagequiz/static/js/main.72be180b.chunk.js.map",
+    "runtime-main.js": "/JarrettPage/imagequiz/static/js/runtime-main.654a7c2c.js",
+    "runtime-main.js.map": "/JarrettPage/imagequiz/static/js/runtime-main.654a7c2c.js.map",
+    "static/js/2.d138e599.chunk.js": "/JarrettPage/imagequiz/static/js/2.d138e599.chunk.js",
+    "static/js/2.d138e599.chunk.js.map": "/JarrettPage/imagequiz/static/js/2.d138e599.chunk.js.map",
+    "static/js/3.04246103.chunk.js": "/JarrettPage/imagequiz/static/js/3.04246103.chunk.js",
+    "static/js/3.04246103.chunk.js.map": "/JarrettPage/imagequiz/static/js/3.04246103.chunk.js.map",
+    "index.html": "/JarrettPage/imagequiz/index.html",
+    "static/css/main.8c8b27cf.chunk.css.map": "/JarrettPage/imagequiz/static/css/main.8c8b27cf.chunk.css.map",
+    "static/js/2.d138e599.chunk.js.LICENSE.txt": "/JarrettPage/imagequiz/static/js/2.d138e599.chunk.js.LICENSE.txt",
+    "static/media/logo.6ce24c58.svg": "/JarrettPage/imagequiz/static/media/logo.6ce24c58.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.654a7c2c.js",
+    "static/js/2.d138e599.chunk.js",
+    "static/css/main.8c8b27cf.chunk.css",
+    "static/js/main.72be180b.chunk.js"
+  ]
+}
