@@ -8,6 +8,7 @@ import Login from './components/Login';
 import NavigationBar from './components/NavigationBar';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Quiz from './QuizPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home}/>
           <Route path="/login" component={Login}/>
+          <Route path="/quiz" component={Quiz}/>
         </Switch>
         <Footer />
       </Container>
