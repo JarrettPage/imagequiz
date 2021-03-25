@@ -48,7 +48,7 @@ function Home(){
         history.push({
             pathname: '/quiz',
             state: {flowerIndex: imageIndex}
-        });      
+        });
     }
     return (
         <Row><Col>

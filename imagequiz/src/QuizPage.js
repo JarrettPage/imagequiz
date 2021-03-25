@@ -14,13 +14,15 @@ function Quiz(props){
     const [currentQuestion, setCurrentQuestion] = useState(0);
 	const [displayScore, setDisplayScore] = useState(false);
 	const [score, setScore] = useState(0);
-    //let flowerNum = props.location.state.flowerIndex;
-    if(localStorage.getItem( 'Index' ) != -1){
-        var flowerNum = localStorage.getItem( 'Index' );
+    let flowerNum = props.location.state.flowerIndex;
+    /*
+    if(localStorage.getItem( 'Index' ) != -1 && localStorage.getItem( 'Index' ) != null){
+        const flowerNum = localStorage.getItem( 'Index' );
     }
     else{
-        var flowerNum = props.location.state.flowerIndex;
+        const flowerNum = props.location.state.flowerIndex;
     }
+    */
     
     function onOptionClick(answer) {
 		if (answer == quizzes[flowerNum][currentQuestion].answer) {
