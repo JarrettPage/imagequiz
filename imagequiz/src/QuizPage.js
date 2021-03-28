@@ -14,18 +14,16 @@ function Quiz(props){
     const [currentQuestion, setCurrentQuestion] = useState(0);
 	const [displayScore, setDisplayScore] = useState(false);
 	const [score, setScore] = useState(0);
-    let flowerNum = props.location.state.flowerIndex;
-    /*
+    let flowerNum = 0;
     if(localStorage.getItem( 'Index' ) != -1 && localStorage.getItem( 'Index' ) != null){
-        const flowerNum = localStorage.getItem( 'Index' );
+        flowerNum = localStorage.getItem( 'Index' );
     }
     else{
-        const flowerNum = props.location.state.flowerIndex;
+        flowerNum = props.location.state.flowerIndex;
     }
-    */
     
     function onOptionClick(answer) {
-		if (answer == quizzes[flowerNum][currentQuestion].answer) {
+		if (answer === quizzes[flowerNum][currentQuestion].answer) {
 			setScore(score + 1);
 		}
 
