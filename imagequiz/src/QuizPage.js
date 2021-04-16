@@ -1,29 +1,66 @@
-import quizzes from './quizzes/data';
+//import quizzes from './quizzes/data';
 //import {flowerName} from './components/Home';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 //import Card from 'react-bootstrap/Card';
 //import CardGroup from 'react-bootstrap/CardGroup';
 import Image from 'react-bootstrap/Image';
-//import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 import { useHistory } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function Quiz(props){
+    let apiHost = "https://jarrettpage-imagequiz.herokuapp.com";
+
     const history = useHistory();
     const [currentQuestion, setCurrentQuestion] = useState(0);
 	const [displayScore, setDisplayScore] = useState(false);
+    const [flowerNum, setFlowerNum] = useState(-1);
 	const [score, setScore] = useState(0);
-    let flowerNum = 0;
-    if(localStorage.getItem( 'Index' ) != -1 && localStorage.getItem( 'Index' ) != null){
-        flowerNum = localStorage.getItem( 'Index' );
+    const [quiz, setQuiz] = useState([]);
+    //const [userName, setUserName] = useState('');
+    const [message, setMessage] = useState('');
+    
+    /*
+    let getQuizzes = () => {
+        return fetch(apiHost + '/quizzes')
+        .then(response => response.json());
     }
-    else{
-        flowerNum = props.location.state.flowerIndex;
+    */
+    let getQuiz = (quizNum) => {
+        let num = quizNum.toString();
+        return fetch(apiHost + '/quiz/' + num)
+        .then(response => response.json());
     }
     
+    let addScore = (points) => {
+        return fetch(apiHost + '/score', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(points)
+        });
+    }
+/*
+    let userNameChanged = (event) => {
+        setUserName(event.target.value);
+    }
+*/
+    let submit = (event) => {
+        let username = localStorage.getItem('username');
+        let userScore = {score: score, quizId: flowerNum, username: username};
+        addScore(userScore)
+        .then(() => {
+            setMessage('User score was added successfully.');
+        })
+        .catch(e => setMessage('Score was unable to be added.'));
+        event.preventDefault();
+    }
+
     function onOptionClick(answer) {
-		if (answer === quizzes[flowerNum][currentQuestion].answer) {
+		if (answer === quiz[currentQuestion].answer) {
 			setScore(score + 1);
 		}
 
@@ -37,25 +74,34 @@ function Quiz(props){
 
     function multipleChoice() {
         let options = [];
-        for(let i = 0; i < quizzes[flowerNum][currentQuestion].choices.length; i++){
+        for(let i = 0; i < quiz[currentQuestion].choices.length; i++){
             options.push(
-                <button onClick={() => onOptionClick(quizzes[flowerNum][currentQuestion].choices[i])}>
-                    {quizzes[flowerNum][currentQuestion].choices[i]}
+                <button onClick={() => onOptionClick(quiz[currentQuestion].choices[i])}>
+                    {quiz[currentQuestion].choices[i]}
                 </button>
             )
         }
         return options;
     }
 
-    function restart(imageIndex) {
-        localStorage.setItem( 'Index', imageIndex);
-        window.location.reload();
+    function restart() {
+        setCurrentQuestion(0);
+        setScore(0);
+        setDisplayScore(false);
     }
 
     function backToHome() {
-        localStorage.setItem( 'Index', -1);
         history.push('/');
     }
+
+    useEffect(() => {
+        if(quiz.length === 0) {
+            setFlowerNum(props.location.state.flowerIndex);
+            getQuiz(flowerNum)
+            .then(x => {setQuiz(x); console.log(x)})
+            .catch(e => console.log(e));
+        }
+    });
 
     return (
         <Row><Col>
@@ -63,52 +109,41 @@ function Quiz(props){
             <div class="imageQuiz">
 			{displayScore ? (
 				<div class="results">
-					Your Score: {score} / 6
-                    <div class="again">
-                        <button onClick={() => backToHome()}>
-                            Different Quiz
-                        </button>
-                        <button onClick={() => restart(flowerNum)}>
-                            Retry
-                        </button>
-                    </div>
+                    <Form onSubmit={submit}>
+                        <Form.Label>
+					    Your score was {score} / 6.
+                        </Form.Label>
+                        <Button variant="primary" type="submit">
+                            Submit
+                        </Button>
+                    </Form>
+                        <div class="again">
+                            <button onClick={() => backToHome()}>
+                                Different Quiz
+                            </button>
+                            <button onClick={() => restart()}>
+                                Retry
+                            </button>
+                        </div>
 				</div>
 			) : (
-				<>
+                <>
+                {(quiz.length === 0) ? ('') :
+                <>
 					<div class="questions">
 						<div class="image">
-							<Image src={quizzes[flowerNum][currentQuestion].picture} fluid />
+							<Image src={quiz[currentQuestion].picture} fluid />
 						</div>
 					</div>
 					<div class="choices">
 						{multipleChoice()}
 					</div>
 				</>
-			)}
+                }
+                </>
+            )}
 		</div>
         </Col></Row>
-        /*
-        <Row><Col>
-            <h2>Flower Quiz</h2>
-
-            <CardGroup>
-            <Card>
-                <Row><Col>
-                    <Card.Img variant="top" src={quizzes[flowerNum][0].picture} style={styles.cardImage} />
-                </Col>
-                <Col>
-                    <Card.Body>
-                    <Card.Title>Please select the correct answer.</Card.Title>
-                    <Button variant="outline-secondary" block>{quizzes[flowerNum][0].choices[0]}</Button>
-                    <Button variant="outline-secondary" block>{quizzes[flowerNum][0].choices[1]}</Button>
-                    <Button variant="outline-secondary" block>{quizzes[flowerNum][0].choices[2]}</Button>
-                    </Card.Body>
-                </Col>
-                </Row>
-            </Card>
-            </CardGroup>
-        </Col></Row>
-        */
     );
 }
 export default Quiz;

@@ -5,43 +5,43 @@ import './App.css';
 import Container from 'react-bootstrap/Container';
 import Home from './components/Home';
 import Login from './components/Login';
+import Logout from './components/Logout';
 import NavigationBar from './components/NavigationBar';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Quiz from './QuizPage';
+import { useState } from 'react';
 
 function App() {
+  const [username, setUsername] = useState(localStorage.getItem('username') || '');
+
+  let onLoggedIn = (email) => {
+      localStorage.setItem('username', email);
+      setUsername(email);
+  }
+
+  let onLoggedOut = () => {
+    setUsername('');
+  }
+
   return (
     <HashRouter>
       <Container fluid>
         <Header />
-        <NavigationBar />
+        <NavigationBar username={username}/>
         <Switch>
           <Route exact path="/" component={Home}/>
-          <Route path="/login" component={Login}/>
+          <Route path="/login">
+            <Login onLoggedIn={onLoggedIn} />
+          </Route>
+          <Route path="/logout">
+            <Logout onLoggedOut={onLoggedOut} />
+          </Route>
           <Route path="/quiz" component={Quiz}/>
         </Switch>
         <Footer />
       </Container>
     </HashRouter>
-    /*
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-    */
   );
 }
 

@@ -1,16 +1,22 @@
 //import { Link } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import flowers from '../quizzes/flowers';
 import Table from 'react-bootstrap/Table';
 import Figure from 'react-bootstrap/Figure';
-//import Quiz from './QuizPage';'
 import { useHistory } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 
 function Home(){
+    let apiHost = "https://jarrettpage-imagequiz.herokuapp.com";
     const history = useHistory();
-    //const [name, setName] = useState('');
+    const [flowers, setFlowers] = useState([]);
+
+
+    let getFlowers = () => {
+        return fetch(apiHost + '/flowers')
+        .then(response => response.json());
+    }
 
     function tableCreator() {
         return (
@@ -50,6 +56,15 @@ function Home(){
             state: {flowerIndex: imageIndex}
         });
     }
+
+    useEffect(() => {
+        if(flowers.length === 0) {
+            getFlowers()
+            .then(x => setFlowers(x))
+            .catch(e => console.log(e));
+        }
+    });
+
     return (
         <Row><Col>
             <h2>This is the Home Page.</h2>

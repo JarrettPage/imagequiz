@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 
-function NavigationBar() {
+function NavigationBar(props) {
     return (
         <Navbar bg="light" expand="lg">
             <Navbar.Brand href="#home">ImageQuiz</Navbar.Brand>
@@ -10,7 +10,7 @@ function NavigationBar() {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     <Nav.Link><Link to="/">Home</Link></Nav.Link>
-                    <Nav.Link><Link to="/login">Login</Link></Nav.Link>
+                    <Nav.Link>{props.username !== "" ? (<Link to="/logout">{props.username}, Logout</Link>) : <Link to="/login">Login</Link>}</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
