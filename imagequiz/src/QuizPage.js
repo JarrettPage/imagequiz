@@ -11,8 +11,7 @@ import { useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 function Quiz(props){
-    let apiHost = "http://localhost:5432";
-    //"https://jarrettpage-imagequiz.herokuapp.com";
+    let apiHost = "https://jarrettpage-imagequiz.herokuapp.com";
 
     const history = useHistory();
     const [currentQuestion, setCurrentQuestion] = useState(0);
