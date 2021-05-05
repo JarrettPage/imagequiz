@@ -53,7 +53,7 @@ function Home(){
     function quizLink(imageIndex) {
         history.push({
             pathname: '/quiz',
-            state: {flowerIndex: imageIndex}
+            state: {flowerIndex: imageIndex + 1}
         });
     }
 

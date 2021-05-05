@@ -11,7 +11,8 @@ import { useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 function Quiz(props){
-    let apiHost = "https://jarrettpage-imagequiz.herokuapp.com";
+    let apiHost = "http://localhost:5432";
+    //"https://jarrettpage-imagequiz.herokuapp.com";
 
     const history = useHistory();
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -19,7 +20,6 @@ function Quiz(props){
     const [flowerNum, setFlowerNum] = useState(-1);
 	const [score, setScore] = useState(0);
     const [quiz, setQuiz] = useState([]);
-    //const [userName, setUserName] = useState('');
     const [message, setMessage] = useState('');
     
     /*
@@ -30,6 +30,7 @@ function Quiz(props){
     */
     let getQuiz = (quizNum) => {
         let num = quizNum.toString();
+        console.log(apiHost + '/quiz/' + num);
         return fetch(apiHost + '/quiz/' + num)
         .then(response => response.json());
     }
@@ -50,7 +51,7 @@ function Quiz(props){
 */
     let submit = (event) => {
         let username = localStorage.getItem('username');
-        let userScore = {score: score, quizId: flowerNum, username: username};
+        let userScore = {score: score, quiznumber: flowerNum, username: username};
         addScore(userScore)
         .then(() => {
             setMessage('User score was added successfully.');
@@ -98,7 +99,7 @@ function Quiz(props){
         if(quiz.length === 0) {
             setFlowerNum(props.location.state.flowerIndex);
             getQuiz(flowerNum)
-            .then(x => {setQuiz(x); console.log(x)})
+            .then(x => {setQuiz(x.questions); console.log(x)})
             .catch(e => console.log(e));
         }
     });
@@ -132,7 +133,7 @@ function Quiz(props){
                 <>
 					<div class="questions">
 						<div class="image">
-							<Image src={quiz[currentQuestion].picture} fluid />
+							<Image src={quiz[currentQuestion].flower} fluid />
 						</div>
 					</div>
 					<div class="choices">
